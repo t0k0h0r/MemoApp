@@ -1,15 +1,52 @@
 import React from 'react';
 // import { View, Text, StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 
 import MemoListScreen from './src/screens/MemoListScreen';
-// import MemoDetailsScreen from './src/screens/MemoDetailsScreen';
-// import MemoEditScreen from './src/screens/MemoEditScreen';
-// import MemoCreateScreen from './src/screens/MemoCreateScreen';
-// import LogInScreen from './src/screens/LogInScreen';
-// import SignUpScreen from './src/screens/SignUpScreen';
+import MemoDetailsScreen from './src/screens/MemoDetailsScreen';
+import MemoEditScreen from './src/screens/MemoEditScreen';
+import MemoCreateScreen from './src/screens/MemoCreateScreen';
+import LogInScreen from './src/screens/LogInScreen';
+import SignUpScreen from './src/screens/SignUpScreen';
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <MemoListScreen />
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="SignUp"
+        screenOptions={{
+          headerStyle: { backgroundColor: '#C945DE' },
+          headerTitleStyle: { color: '#fff' },
+          headerTitle: 'Memo App',
+          headerTintColor: '#fff',
+          headerBackTitle: 'back',
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          gestureEnabled: true,
+          gestureDirection: 'horizontal',
+        }}
+      >
+        <Stack.Screen name="MemoList" component={MemoListScreen} />
+        <Stack.Screen name="MemoDetails" component={MemoDetailsScreen} />
+        <Stack.Screen name="MemoEdit" component={MemoEditScreen} />
+        <Stack.Screen name="MemoCreate" component={MemoCreateScreen} />
+        <Stack.Screen
+          name="LogIn"
+          component={LogInScreen}
+          options={{
+            cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
+          }}
+        />
+        <Stack.Screen
+          name="SignUp"
+          component={SignUpScreen}
+          options={{
+            cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
