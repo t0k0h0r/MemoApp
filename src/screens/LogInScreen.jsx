@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View, TextInput, Text, StyleSheet, TouchableOpacity, Alert,
 } from 'react-native';
@@ -10,6 +10,18 @@ export default function LogInScreen(props) {
   const { navigation } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    const unsubscribed = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'MemoList' }],
+        });
+      }
+    });
+    return unsubscribed;
+  }, []);
 
   function handlePress() {
     firebase.auth().signInWithEmailAndPassword(email, password)
@@ -37,7 +49,7 @@ export default function LogInScreen(props) {
           autoCapitalize="none"
           keyboardType="email-address"
           placeholder="Email Address"
-          textContentType="emailAdress"
+          textContentType="emailAddress"
         />
         <TextInput
           style={styles.input}
